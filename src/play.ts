@@ -13,11 +13,15 @@ export default class Game {
     gameHeaderRestartButton: Element
     cardSetItem!: any
     timer: any
+    sec: any
+    min: any
 
     constructor(parent: Element, cardSet: number[]) {
         this.parent = parent
         this.timer = null
         this.cardSet = cardSet
+        this.sec = null
+        this.min = null
 
         this.setPairCard = []
         this.setArr = []
@@ -135,6 +139,8 @@ export default class Game {
 
             timerMinutes.textContent = `${formattedMinutes}.`
             timerSeconds.textContent = formattedSeconds
+            this.sec = formattedSeconds
+            this.min = formattedMinutes
         }, 1000)
     }
 
@@ -146,7 +152,7 @@ export default class Game {
 
     onCheckMatch() {
         if (this.setPairCard[0].id !== this.setPairCard[1].id) {
-            new Popup(this.parent, 'lose')
+            new Popup(this.parent, 'lose', this.sec, this.min)
         }
 
         this.setPairCard = []
@@ -168,7 +174,7 @@ export default class Game {
                 this.setPairCard.push(target)
                 this.onCheckMatch()
             } else {
-                new Popup(this.parent, 'win')
+                new Popup(this.parent, 'win', this.sec, this.min)
             }
         }
     }

@@ -1,7 +1,7 @@
 import templateEngine from './lib/template-engine'
 import Level from './script'
-import LoseIcon from './img/loseicon.svg'
-import WinIcon from './img/winicon.svg'
+import LoseIcon from './img/10 бубны.jpg'
+import WinIcon from './img/10 черви.jpg'
 
 export default class Popup {
     parent: Element
@@ -9,10 +9,13 @@ export default class Popup {
     popupBackground: Element
     popupPlayAgainButton: Element | undefined
     element: Element | undefined
-    constructor(body: Element, result: string) {
+    sec!: any
+    min!: any
+    constructor(body: Element, result: string, sec: any, min: any) {
         this.parent = body
         this.result = result
-
+        this.sec = sec || ''
+        this.min = min || ''
         this.popupBackground = templateEngine(Popup.PopupBackgroundTemplate())
         this.parent.appendChild(this.popupBackground)
 
@@ -76,7 +79,12 @@ Popup.PopupBackgroundTemplate = () => ({
     cls: 'result-background',
 })
 
-Popup.PopupWinTemplate = (resultTag: any, resultText: any) => ({
+Popup.PopupWinTemplate = (
+    resultTag: any,
+    resultText: any,
+    min: any,
+    sec: any
+) => ({
     tag: 'div',
     cls: `${resultTag}`,
     content: [
@@ -100,6 +108,7 @@ Popup.PopupWinTemplate = (resultTag: any, resultText: any) => ({
         {
             tag: 'div',
             cls: `${resultTag}__popup_stopwath-display`,
+            content: `${min}.${sec}`,
         },
         {
             tag: 'button',
@@ -112,7 +121,12 @@ Popup.PopupWinTemplate = (resultTag: any, resultText: any) => ({
     ],
 })
 
-Popup.PopupLoseTemplate = (resultTag: any, resultText: any) => ({
+Popup.PopupLoseTemplate = (
+    resultTag: any,
+    resultText: any,
+    min: any,
+    sec: any
+) => ({
     tag: 'div',
     cls: `${resultTag}`,
     content: [
@@ -136,6 +150,7 @@ Popup.PopupLoseTemplate = (resultTag: any, resultText: any) => ({
         {
             tag: 'div',
             cls: `${resultTag}__popup_stopwath-display`,
+            content: `${min}.${sec}`,
         },
         {
             tag: 'button',
