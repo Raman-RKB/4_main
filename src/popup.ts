@@ -9,9 +9,9 @@ export default class Popup {
     popupBackground: Element
     popupPlayAgainButton: Element | undefined
     element: Element | undefined
-    sec!: any
-    min!: any
-    constructor(body: Element, result: string, sec: any, min: any) {
+    sec!: string
+    min!: string
+    constructor(body: Element, result: string, sec: string, min: string) {
         this.parent = body
         this.result = result
         this.sec = sec || ''
@@ -38,7 +38,7 @@ export default class Popup {
             )
         }
     }
-    static PopupBackgroundTemplate(): any {
+    static PopupBackgroundTemplate() {
         throw new Error('Method not implemented.')
     }
 
@@ -51,14 +51,24 @@ export default class Popup {
     renderPopup() {
         if (this.result === 'lose') {
             this.element = templateEngine(
-                Popup.PopupLoseTemplate(this.result, 'Вы проиграли!')
+                Popup.PopupLoseTemplate(
+                    this.result,
+                    'Вы проиграли!',
+                    this.min,
+                    this.sec
+                )
             )
             if (this.element) {
                 this.parent.appendChild(this.element)
             }
         } else if (this.result === 'win') {
             this.element = templateEngine(
-                Popup.PopupWinTemplate(this.result, 'Вы выиграли!')
+                Popup.PopupWinTemplate(
+                    this.result,
+                    'Вы выиграли!',
+                    this.min,
+                    this.sec
+                )
             )
             if (this.element) {
                 this.parent.appendChild(this.element)
@@ -66,10 +76,20 @@ export default class Popup {
         }
     }
 
-    static PopupLoseTemplate(result: any, arg1: string): any {
+    static PopupLoseTemplate(
+        _result: string,
+        _arg1: string,
+        _min: string,
+        _sec: string
+    ) {
         throw new Error('Method not implemented.')
     }
-    static PopupWinTemplate(result: any, arg1: string): any {
+    static PopupWinTemplate(
+        _result: string,
+        _arg1: string,
+        _min: string,
+        _sec: string
+    ) {
         throw new Error('Method not implemented.')
     }
 }
@@ -80,10 +100,10 @@ Popup.PopupBackgroundTemplate = () => ({
 })
 
 Popup.PopupWinTemplate = (
-    resultTag: any,
-    resultText: any,
-    min: any,
-    sec: any
+    resultTag: string,
+    resultText: string,
+    min: string,
+    sec: string
 ) => ({
     tag: 'div',
     cls: `${resultTag}`,
@@ -122,10 +142,10 @@ Popup.PopupWinTemplate = (
 })
 
 Popup.PopupLoseTemplate = (
-    resultTag: any,
-    resultText: any,
-    min: any,
-    sec: any
+    resultTag: string,
+    resultText: string,
+    min: string,
+    sec: string
 ) => ({
     tag: 'div',
     cls: `${resultTag}`,

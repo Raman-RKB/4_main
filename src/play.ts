@@ -11,17 +11,17 @@ export default class Game {
     setArr: Element[]
     element: Element
     gameHeaderRestartButton: Element
-    cardSetItem!: any
-    timer: any
-    sec: any
-    min: any
+    cardSetItem!: HTMLElement
+    timer: NodeJS.Timeout | null = null
+    sec: string
+    min: string
 
     constructor(parent: Element, cardSet: number[]) {
         this.parent = parent
         this.timer = null
         this.cardSet = cardSet
-        this.sec = null
-        this.min = null
+        this.sec = ''
+        this.min = ''
 
         this.setPairCard = []
         this.setArr = []

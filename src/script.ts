@@ -9,14 +9,15 @@ export default class Level {
     level: number[]
     startButton: Element
     complexityСontainer: Element
-    firstChild: any
+    firstChild: Element
 
     constructor(parent: Element | null) {
         if (parent === null) {
             throw new Error('The parent element is null.')
         }
         this.parent = parent
-        this.firstChild = ''
+        this.firstChild = document.createElement('div')
+
         // eslint-disable-next-line no-undef
         this.element = templateEngine(Level.complexityTemplate())
         parent.appendChild(this.element)
