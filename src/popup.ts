@@ -1,7 +1,7 @@
 import templateEngine from './lib/template-engine'
 import Level from './script'
-import LoseIcon from './img/10 бубны.jpg'
-import WinIcon from './img/10 черви.jpg'
+import LoseIcon from './img/loseicon.svg'
+import WinIcon from './img/winicon.svg'
 
 export default class Popup {
     parent: Element
