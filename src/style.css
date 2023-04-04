@@ -127,7 +127,6 @@
     display: grid;
     justify-content: space-around;
     grid-template-columns: repeat(9, 1fr);
-    width: 100vh;
     margin-left: 25px;
     margin-right: 25px;
     gap: 15px;
@@ -166,8 +165,8 @@
 
 .game__header_min-pointer {
     position: relative;
-    right: 200px;
-    bottom: 35px;
+    right: 175px;
+    bottom: 40px;
     width: 28px;
     height: 32px;
     font-style: normal;
@@ -184,8 +183,8 @@
 
 .game__header_sec-pointer {
     position: relative;
-    right: 235px;
-    bottom: 35px;
+    right: 185px;
+    bottom: 40px;
     width: 28px;
     height: 32px;
     font-style: normal;

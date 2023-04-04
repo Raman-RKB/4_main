@@ -10,32 +10,19 @@ export default class Game {
     setPairCard: Element[]
     setArr: Element[]
     element: Element
-    timerMinutes: Element
-    timerSeconds: Element
     gameHeaderRestartButton: Element
     cardSetItem!: any
     timer: any
 
     constructor(parent: Element, cardSet: number[]) {
         this.parent = parent
-
+        this.timer = null
         this.cardSet = cardSet
 
         this.setPairCard = []
         this.setArr = []
-        // eslint-disable-next-line no-undef
         this.element = templateEngine(Game.startPlayTemplate())
         parent.appendChild(this.element)
-
-        this.timerMinutes = this.element.querySelector(
-            '.timer__minutes'
-        ) as Element
-
-        this.timerSeconds = this.element.querySelector(
-            '.timer__seconds'
-        ) as Element
-
-        this.onStartTimer()
 
         this.gameHeaderRestartButton = this.element.querySelector(
             '.game__header_restart-button'
@@ -58,6 +45,7 @@ export default class Game {
     }
 
     onRenderGameInterface() {
+        this.startTimer()
         this.cardSet.forEach((el: number) => {
             this.cardSetItem = templateEngine(Game.cardSetItemTemplate(el))
             this.element.appendChild(this.cardSetItem)
@@ -122,25 +110,43 @@ export default class Game {
         }
         setTimeout(this.onHideCards.bind(this), 5000)
     }
+
     static cardSetItemTemplate(el: number) {
         throw new Error('Method not implemented.')
+    }
+
+    startTimer() {
+        let seconds = 0
+        const timerMinutes = this.element.querySelector(
+            '.timer__minutes'
+        ) as Element
+        const timerSeconds = this.element.querySelector(
+            '.timer__seconds'
+        ) as Element
+
+        this.timer = setInterval(() => {
+            seconds++
+
+            const minutes = Math.floor(seconds / 60)
+            const remainingSeconds = seconds % 60
+
+            const formattedMinutes = String(minutes).padStart(2, '0')
+            const formattedSeconds = String(remainingSeconds).padStart(2, '0')
+
+            timerMinutes.textContent = `${formattedMinutes}.`
+            timerSeconds.textContent = formattedSeconds
+        }, 1000)
     }
 
     onRestartGameClick() {
         const element = document.querySelector('.body')
         this.element.remove()
-        // eslint-disable-next-line no-undef
         new Level(element)
     }
 
     onCheckMatch() {
-        if (this.setPairCard[0] !== this.setPairCard[1]) {
-            new Popup(
-                this.parent,
-                'lose',
-                `${this.timerMinutes.textContent}.${this.timerSeconds.textContent}`
-            )
-            this.onPauseTimer()
+        if (this.setPairCard[0].id !== this.setPairCard[1].id) {
+            new Popup(this.parent, 'lose')
         }
 
         this.setPairCard = []
@@ -162,35 +168,20 @@ export default class Game {
                 this.setPairCard.push(target)
                 this.onCheckMatch()
             } else {
-                new Popup(
-                    this.parent,
-                    'win',
-                    `${this.timerMinutes.textContent}.${this.timerSeconds.textContent}`
-                )
-                this.onPauseTimer()
+                new Popup(this.parent, 'win')
             }
         }
     }
 
     onHideCards() {
-        for (let i = 1; i <= this.cardSet.length; i++) {
+        for (let i = 0; i < this.cardSet.length; i++) {
             const element = this.element.childNodes[
-                this.element.childNodes.length - i
+                this.element.childNodes.length - i - 1
             ] as HTMLElement
-            element.style.backgroundImage = `${Face}`
+            element.style.backgroundImage = `url(${Face})`
+
             this.element.addEventListener('click', this.onShowCards)
         }
-    }
-
-    onStartTimer(this: any) {
-        this.timerMinutes.setAttribute('data-minutes', '')
-        this.timerSeconds.setAttribute('data-seconds', '')
-
-        this.timer.stopOnZero = false
-    }
-
-    onPauseTimer() {
-        this.timer.pause = true
     }
 }
 
@@ -217,16 +208,12 @@ Game.startPlayTemplate = () => ({
                         {
                             tag: 'div',
                             cls: 'timer__minutes',
-                        },
-                        {
-                            tag: 'div',
-                            //cls: 'timer__minutes',
-                            content: '.',
+                            content: '00.',
                         },
                         {
                             tag: 'div',
                             cls: 'timer__seconds',
-                            //content: '.'
+                            content: '00',
                         },
                     ],
                 },
@@ -249,6 +236,3 @@ Game.startPlayTemplate = () => ({
         },
     ],
 })
-function timezz(timerElement: Element, arg1: { date: Date }): any {
-    throw new Error('Function not implemented.')
-}

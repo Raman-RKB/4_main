@@ -9,13 +9,14 @@ export default class Level {
     level: number[]
     startButton: Element
     complexityСontainer: Element
+    firstChild: any
 
     constructor(parent: Element | null) {
         if (parent === null) {
             throw new Error('The parent element is null.')
         }
         this.parent = parent
-
+        this.firstChild = ''
         // eslint-disable-next-line no-undef
         this.element = templateEngine(Level.complexityTemplate())
         parent.appendChild(this.element)
@@ -54,6 +55,7 @@ export default class Level {
 
     onComplexityClick(event: Event) {
         const target = event.target as Element
+
         if (
             target.classList.contains('level-1') ||
             target.classList.contains('level-2') ||
@@ -61,18 +63,20 @@ export default class Level {
         ) {
             target.classList.add('complexity__container_item-hover')
         }
+
         if (
             target !== null &&
             target.parentElement !== null &&
             target.parentElement.nextSibling !== null
         ) {
-            const firstChild = target.parentElement.nextSibling
+            this.firstChild = target.parentElement.nextSibling
                 .firstChild as Element
-            if (target.classList.contains('level-1')) {
-                firstChild.classList.remove('complexity__container_item-hover')
-            }
+        }
 
-            const lastChild = this.complexityСontainer.lastChild
+        if (target.textContent === '1') {
+            this.firstChild.classList.remove('complexity__container_item-hover')
+
+            const lastChild = this.complexityСontainer.lastChild?.firstChild
             if (
                 this.complexityСontainer.lastChild &&
                 lastChild instanceof Element
@@ -81,33 +85,45 @@ export default class Level {
             }
 
             this.level.splice(0, 1, 3)
-        } else if (target.classList.contains('level-2')) {
+        } else if (target.textContent === '2') {
             if (
                 target !== null &&
                 target.parentElement !== null &&
                 target.parentElement.nextSibling !== null
             ) {
-                const firstChild = target.parentElement.nextSibling
+                const nextElement = target.parentElement.nextSibling
                     .firstChild as Element
-                firstChild.classList.remove('complexity__container_item-hover')
+
+                const previousElement = target.parentElement.previousSibling
+                    ?.firstChild as Element
+
+                nextElement.classList.remove('complexity__container_item-hover')
+
+                previousElement.classList.remove(
+                    'complexity__container_item-hover'
+                )
             }
             this.level.splice(0, 1, 6)
-        } else if (target.classList.contains('level-3')) {
+        } else if (target.textContent === '3') {
             if (
                 target !== null &&
                 target.parentElement !== null &&
                 target.parentElement.previousSibling !== null
             ) {
-                const firstChild = target.parentElement.previousSibling
+                const previousElement = target.parentElement.previousSibling
                     .firstChild as Element
-                firstChild.classList.remove('complexity__container_item-hover')
+                previousElement.classList.remove(
+                    'complexity__container_item-hover'
+                )
             }
-            const lastChild = this.complexityСontainer.lastChild
+            const firstElement = this.complexityСontainer.firstChild?.firstChild
             if (
-                this.complexityСontainer.lastChild &&
-                lastChild instanceof Element
+                this.complexityСontainer.firstChild &&
+                firstElement instanceof Element
             ) {
-                lastChild.classList.remove('complexity__container_item-hover')
+                firstElement.classList.remove(
+                    'complexity__container_item-hover'
+                )
             }
             this.level.splice(0, 1, 9)
         }
@@ -123,7 +139,6 @@ export default class Level {
 
     onGenerateCardSet(lvl: number) {
         const cardSet = []
-
         for (let i = 0; lvl * 2 > cardSet.length; i++) {
             const cardId = Math.floor(Math.random() * (37 - 1)) + 1
 

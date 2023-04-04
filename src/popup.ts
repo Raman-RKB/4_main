@@ -1,19 +1,18 @@
 import templateEngine from './lib/template-engine'
 import Level from './script'
+import LoseIcon from './img/loseicon.svg'
+import WinIcon from './img/winicon.svg'
 
 export default class Popup {
     parent: Element
     result: string
-    stopwatch: string
     popupBackground: Element
     popupPlayAgainButton: Element | undefined
     element: Element | undefined
-    constructor(body: Element, result: string, stopwatch: string) {
+    constructor(body: Element, result: string) {
         this.parent = body
         this.result = result
-        this.stopwatch = stopwatch
 
-        // eslint-disable-next-line no-undef
         this.popupBackground = templateEngine(Popup.PopupBackgroundTemplate())
         this.parent.appendChild(this.popupBackground)
 
@@ -43,29 +42,20 @@ export default class Popup {
     onRestartGameClick() {
         const element = document.querySelector('.body')
         this.parent.replaceChildren()
-        // eslint-disable-next-line no-undef
         new Level(element)
     }
 
     renderPopup() {
         if (this.result === 'lose') {
             this.element = templateEngine(
-                Popup.PopupLoseTemplate(
-                    this.result,
-                    'Вы проиграли!',
-                    this.stopwatch
-                )
+                Popup.PopupLoseTemplate(this.result, 'Вы проиграли!')
             )
             if (this.element) {
                 this.parent.appendChild(this.element)
             }
         } else if (this.result === 'win') {
             this.element = templateEngine(
-                Popup.PopupWinTemplate(
-                    this.result,
-                    'Вы выиграли!',
-                    this.stopwatch
-                )
+                Popup.PopupWinTemplate(this.result, 'Вы выиграли!')
             )
             if (this.element) {
                 this.parent.appendChild(this.element)
@@ -73,10 +63,10 @@ export default class Popup {
         }
     }
 
-    static PopupLoseTemplate(result: any, arg1: string, stopwatch: any): any {
+    static PopupLoseTemplate(result: any, arg1: string): any {
         throw new Error('Method not implemented.')
     }
-    static PopupWinTemplate(result: any, arg1: string, stopwatch: any): any {
+    static PopupWinTemplate(result: any, arg1: string): any {
         throw new Error('Method not implemented.')
     }
 }
@@ -86,7 +76,7 @@ Popup.PopupBackgroundTemplate = () => ({
     cls: 'result-background',
 })
 
-Popup.PopupWinTemplate = (resultTag, resultText, passedTime) => ({
+Popup.PopupWinTemplate = (resultTag: any, resultText: any) => ({
     tag: 'div',
     cls: `${resultTag}`,
     content: [
@@ -94,7 +84,7 @@ Popup.PopupWinTemplate = (resultTag, resultText, passedTime) => ({
             tag: 'img',
             cls: `${resultTag}__popup_icon`,
             attrs: {
-                src: `/bf0684fdd7c8b9634d54.svg`,
+                src: `${WinIcon}`,
             },
         },
         {
@@ -110,7 +100,6 @@ Popup.PopupWinTemplate = (resultTag, resultText, passedTime) => ({
         {
             tag: 'div',
             cls: `${resultTag}__popup_stopwath-display`,
-            content: `${passedTime}`,
         },
         {
             tag: 'button',
@@ -123,7 +112,7 @@ Popup.PopupWinTemplate = (resultTag, resultText, passedTime) => ({
     ],
 })
 
-Popup.PopupLoseTemplate = (resultTag, resultText, passedTime) => ({
+Popup.PopupLoseTemplate = (resultTag: any, resultText: any) => ({
     tag: 'div',
     cls: `${resultTag}`,
     content: [
@@ -131,7 +120,7 @@ Popup.PopupLoseTemplate = (resultTag, resultText, passedTime) => ({
             tag: 'img',
             cls: `${resultTag}__popup_icon`,
             attrs: {
-                src: `/14d22a39e441c520d9e1.svg`,
+                src: `${LoseIcon}`,
             },
         },
         {
@@ -147,7 +136,6 @@ Popup.PopupLoseTemplate = (resultTag, resultText, passedTime) => ({
         {
             tag: 'div',
             cls: `${resultTag}__popup_stopwath-display`,
-            content: `${passedTime}`,
         },
         {
             tag: 'button',
