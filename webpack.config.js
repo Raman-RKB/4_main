@@ -12,17 +12,30 @@ const mode = process.env.NODE_ENV === "production" ? "production" : "development
 module.exports = {
   entry: "./src/script.ts",
   mode,
-    resolve: {
+  resolve: {
     extensions: ['.ts', '.js'],
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
-        use: "ts-loader",
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env"]
+            }
+          },
+          {
+            loader: "ts-loader",
+            options: {
+              transpileOnly: true
+            }
+          }
+        ],
         exclude: /node_modules/,
       },
-            {
+      {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader"]
       },
@@ -49,9 +62,14 @@ module.exports = {
     filename: "bundle.js",
   },
   plugins: [
-    new MiniCssExtractPlugin(), 
+    new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
-    filename: 'index.html',
-    template: './index.html',
-  })],
+      filename: 'index.html',
+      template: './index.html',
+    })],
+  transform: {
+    "^.+\\.ts?$": "ts-jest"
+  },
+  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.ts?$",
+  moduleFileExtensions: ["ts", "js", "json", "node"]
 };

@@ -4,7 +4,7 @@
     "description": "",
     "main": "script.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest",
         "format": "prettier --write ./src/",
         "lint:js": "eslint ./src/**/*.ts",
         "lint:css": "stylelint ./src/**/*.css",
@@ -12,17 +12,17 @@
         "lint": "npm run lint:js && npm run lint:css",
         "build": "webpack",
         "start": "webpack-dev-server --open",
-        "lint:ts": "tsc --noEmit",
-        "test": "jest"
+        "lint:ts": "tsc --noEmit"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "jquery": "3.6.3",
-        "timezz": "^7.0.0"
+        "@babel/core": "^7.21.4",
+        "jquery": "3.6.3"
     },
     "devDependencies": {
+        "@babel/preset-env": "^7.21.4",
         "@types/jest": "^29.5.0",
         "@types/lodash": "^4.14.191",
         "@typescript-eslint/eslint-plugin": "^5.51.0",
