@@ -5,18 +5,6 @@ import Face from './img/face.jpg'
 import Level from './script'
 
 export default class Game {
-    static onCheckMatch() {
-        throw new Error('Method not implemented.')
-    }
-    static startTimer() {
-        throw new Error('Method not implemented.')
-    }
-    addItem(arg0: { name: string }) {
-        throw new Error('Method not implemented.')
-    }
-    items(items: any) {
-        throw new Error('Method not implemented.')
-    }
     parent: Element
     cardSet: number[]
     setPairCard: Element[]

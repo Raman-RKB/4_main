@@ -1,4 +1,3 @@
-//REVIEW
 import templateEngine from './lib/template-engine'
 import Game from './play'
 
