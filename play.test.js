@@ -11,7 +11,7 @@ jest.mock('./src/popup');
 
 describe('Game', () => {
     describe('onCheckMatch()', () => {
-        it('should show lose popup if the cards do not match', () => {
+        it(() => {
             const parent = document.createElement('div');
             const card1 = document.createElement('div');
             card1.setAttribute('data-id', '1');
@@ -28,18 +28,6 @@ describe('Game', () => {
             expect(Popup).toHaveBeenCalledWith(parent, 'lose', game.sec, game.min);
             expect(game.setPairCard).toEqual([]);
         });
-
-        // it('should not show popup if the cards match', () => {
-        //     const parent = document.createElement('div');
-        //     const cards = [{ id: 1, value: 'A' }, { id: 1, value: 'A' }];
-        //     const game = new Game(parent, cards);
-
-        //     game.setPairCard = cards;
-        //     game.onCheckMatch();
-
-        //     expect(Popup).not.toHaveBeenCalled();
-        //     expect(game.setPairCard).toEqual([]);
-        // });
     });
 });
 
