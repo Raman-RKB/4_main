@@ -115,7 +115,7 @@ export default class Game {
         setTimeout(this.onHideCards.bind(this), 5000)
     }
 
-    static cardSetItemTemplate(el: number) {
+    static cardSetItemTemplate(_el: number) {
         throw new Error('Method not implemented.')
     }
 
