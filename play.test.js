@@ -4,8 +4,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const { describe, it, expect } = require('@jest/globals');
-const { Game } = require ('./src/play');
-const { Popup } = require ('./src/popup');
+const { Game } = require('./src/play');
+const { Popup } = require('./src/popup');
 
 jest.mock('./src/popup');
 
